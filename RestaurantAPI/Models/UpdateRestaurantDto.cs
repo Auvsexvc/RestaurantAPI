@@ -4,6 +4,7 @@ namespace RestaurantAPI.Models
 {
     public class UpdateRestaurantDto
     {
+        [MaxLength(500)]
         public string Description { get; set; }
 
         public bool HasDelivery { get; set; }

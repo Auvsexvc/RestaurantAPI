@@ -38,18 +38,26 @@ namespace RestaurantAPI.Controllers
             return Created($"api/restaurant/{restaurantId}/dish/{newDishId}", null);
         }
 
-        [HttpPut("{id}")]
-        public ActionResult Update([FromRoute] int restaurantId, [FromRoute] int id, [FromBody] UpdateDishDto dto)
+        [HttpPut("{dishId}")]
+        public ActionResult Update([FromRoute] int restaurantId, [FromRoute] int dishId, [FromBody] UpdateDishDto dto)
         {
-            _dishService.Update(restaurantId, id, dto);
+            _dishService.Update(restaurantId, dishId, dto);
 
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete("{dishId}")]
         public ActionResult Delete([FromRoute] int restaurantId)
         {
             _dishService.RemoveAll(restaurantId);
+
+            return NoContent();
+        }
+
+        [HttpDelete]
+        public ActionResult Delete([FromRoute] int restaurantId, [FromRoute] int dishId)
+        {
+            _dishService.Delete(restaurantId, dishId);
 
             return NoContent();
         }

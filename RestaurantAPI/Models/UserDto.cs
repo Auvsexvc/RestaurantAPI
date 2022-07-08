@@ -1,5 +1,6 @@
 ﻿using RestaurantAPI.Entities;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace RestaurantAPI.Models
 {

@@ -25,16 +25,17 @@ namespace RestaurantAPI.Services
 
         public int Create(CreateRestaurantDto dto)
         {
-            var restaurant = _mapper.Map<Restaurant>(dto);
+            Restaurant restaurant = _mapper.Map<Restaurant>(dto);
             _dbContext.Restaurants.Add(restaurant);
             _dbContext.SaveChanges();
 
+            _logger.LogInformation($"Restaurant with ID: {restaurant.Id} created");
             return restaurant.Id;
         }
 
         public void Delete(int id)
         {
-            _logger.LogError($"Restaurant with ID: {id} DELETEE action invoked");
+            _logger.LogInformation($"Restaurant with ID: {id} DELETE action invoked");
 
             var restaurant = _dbContext
                 .Restaurants
@@ -44,6 +45,7 @@ namespace RestaurantAPI.Services
 
             _dbContext.Restaurants.Remove(restaurant);
             _dbContext.SaveChanges();
+            _logger.LogInformation($"Restaurant with ID: {id} deleted");
         }
 
         public IEnumerable<RestaurantDto> GetAll()
@@ -73,6 +75,7 @@ namespace RestaurantAPI.Services
 
         public void Update(int id, UpdateRestaurantDto dto)
         {
+            _logger.LogInformation($"Restaurant with ID: {id} PUT action invoked");
             var restaurant = _dbContext
                 .Restaurants
                 .FirstOrDefault(r => r.Id == id);
@@ -83,8 +86,8 @@ namespace RestaurantAPI.Services
             restaurant.Name = dto.Name;
             restaurant.Description = dto.Description;
             restaurant.HasDelivery = dto.HasDelivery;
-
             _dbContext.SaveChanges();
+            _logger.LogInformation($"Restaurant with ID: {id} updated");
         }
     }
 }

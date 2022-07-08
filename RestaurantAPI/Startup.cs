@@ -33,7 +33,7 @@ namespace RestaurantAPI
             services.AddDbContext<RestaurantDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<RestaurantSeeder>();
             services.AddScoped<RoleSeeder>();
-            services.AddAutoMapper(this.GetType().Assembly);
+            services.AddAutoMapper(GetType().Assembly);
             services.AddScoped<IRestaurantService, RestaurantService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IDishService, DishService>();
@@ -63,7 +63,7 @@ namespace RestaurantAPI
 
             app.UseRouting();
 
-            //app.UseAuthorization();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints => endpoints.MapControllers());
         }

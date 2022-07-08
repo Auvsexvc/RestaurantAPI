@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using RestaurantAPI.Entities;
 using RestaurantAPI.Exceptions;
 using RestaurantAPI.Interfaces;
@@ -11,25 +12,40 @@ namespace RestaurantAPI.Services
 {
     public class DishService : IDishService
     {
-        private readonly RestaurantDbContext _context;
+        private readonly RestaurantDbContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly ILogger<DishService> _logger;
 
-        public DishService(RestaurantDbContext context, IMapper mapper)
+        public DishService(RestaurantDbContext context, IMapper mapper, ILogger<DishService> logger)
         {
-            _context = context;
+            _dbContext = context;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public int Create(int restaurantId, CreateDishDto dto)
         {
-            var dishEntity = _mapper.Map<Dish>(dto);
+            var newDish = _mapper.Map<Dish>(dto);
 
-            dishEntity.RestaurantId = restaurantId;
+            newDish.RestaurantId = restaurantId;
 
-            _context.Dishes.Add(dishEntity);
-            _context.SaveChanges();
+            _dbContext.Dishes.Add(newDish);
+            _dbContext.SaveChanges();
 
-            return dishEntity.Id;
+            _logger.LogInformation($"Dish with ID: {newDish.Id} created");
+            return newDish.Id;
+        }
+
+        public void Delete(int restaurantId, int dishId)
+        {
+            var dish = _dbContext.Dishes.FirstOrDefault(d => d.Id == dishId);
+            if (dish is null || dish.RestaurantId != restaurantId)
+            {
+                throw new NotFoundException("Dish not found");
+            }
+            _dbContext.Dishes.Remove(dish);
+            _dbContext.SaveChanges();
+            _logger.LogInformation($"Dish with ID: {dish.Id} deleted");
         }
 
         public List<DishDto> GetAll(int restaurantId)
@@ -41,7 +57,7 @@ namespace RestaurantAPI.Services
 
         public DishDto GetById(int restaurantId, int dishId)
         {
-            var dish = _context.Dishes.FirstOrDefault(d => d.Id == dishId);
+            var dish = _dbContext.Dishes.FirstOrDefault(d => d.Id == dishId);
             if (dish is null || dish.RestaurantId != restaurantId)
             {
                 throw new NotFoundException("Dish not found");
@@ -54,13 +70,14 @@ namespace RestaurantAPI.Services
         {
             var restaurant = GetRestaurantById(restaurantId);
 
-            _context.RemoveRange(restaurant.Dishes);
-            _context.SaveChanges();
+            _dbContext.RemoveRange(restaurant.Dishes);
+            _dbContext.SaveChanges();
+            _logger.LogWarning($"All dishes from restaurant {restaurant.Id} have been removed!!!");
         }
 
         public void Update(int restaurantId, int dishId, UpdateDishDto dto)
         {
-            var dish = _context.Dishes.FirstOrDefault(d => d.Id == dishId);
+            var dish = _dbContext.Dishes.FirstOrDefault(d => d.Id == dishId);
 
             if (dish is null || dish.RestaurantId != restaurantId)
                 throw new NotFoundException("Dish not found");
@@ -68,12 +85,13 @@ namespace RestaurantAPI.Services
             dish.Name = dto.Name;
             dish.Description = dto.Description;
             dish.Price = dto.Price;
-            _context.SaveChanges();
+            _dbContext.SaveChanges();
+            _logger.LogInformation($"Dish with ID: {dish.Id} updated");
         }
 
         private Restaurant GetRestaurantById(int restaurantId)
         {
-            var restaurant = _context
+            var restaurant = _dbContext
                 .Restaurants
                 .Include(r => r.Dishes)
                 .FirstOrDefault(r => r.Id == restaurantId);

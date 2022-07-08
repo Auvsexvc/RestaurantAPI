@@ -19,14 +19,14 @@ namespace RestaurantAPI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<RestaurantDto>> GetAll()
         {
-            object restaurantsDtos = _restaurantService.GetAll();
+            IEnumerable<RestaurantDto> restaurantsDtos = _restaurantService.GetAll();
             return Ok(restaurantsDtos);
         }
 
         [HttpGet("{id}")]
         public ActionResult<RestaurantDto> Get([FromRoute] int id)
         {
-            object restaurant = _restaurantService.GetById(id);
+            RestaurantDto restaurant = _restaurantService.GetById(id);
 
             return Ok(restaurant);
         }
@@ -34,7 +34,7 @@ namespace RestaurantAPI.Controllers
         [HttpPost]
         public ActionResult CreateRestaurant([FromBody] CreateRestaurantDto dto)
         {
-            var id = _restaurantService.Create(dto);
+            int id = _restaurantService.Create(dto);
 
             return Created($"/api/restaurant/{id}", null);
         }

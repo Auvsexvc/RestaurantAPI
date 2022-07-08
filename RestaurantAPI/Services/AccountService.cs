@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using RestaurantAPI.Entities;
 using RestaurantAPI.Interfaces;
 using RestaurantAPI.Models;
@@ -11,20 +12,22 @@ namespace RestaurantAPI.Services
 {
     public class AccountService : IAccountService
     {
-        private readonly RestaurantDbContext _context;
+        private readonly RestaurantDbContext _dbContext;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IMapper _mapper;
+        private readonly ILogger<AccountService> _logger;
 
-        public AccountService(RestaurantDbContext context, IPasswordHasher<User> passwordHasher, IMapper mapper)
+        public AccountService(RestaurantDbContext context, IPasswordHasher<User> passwordHasher, IMapper mapper, ILogger<AccountService> logger)
         {
-            _context = context;
+            _dbContext = context;
             _passwordHasher = passwordHasher;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public IEnumerable<UserDto> GetAll()
         {
-            var users = _context
+            var users = _dbContext
                 .Users
                 .Include(r => r.Role)
                 .ToList();
@@ -44,8 +47,9 @@ namespace RestaurantAPI.Services
 
             var hashedPassword = _passwordHasher.HashPassword(newUser, dto.Password);
             newUser.PasswordHash = hashedPassword;
-            _context.Users.Add(newUser);
-            _context.SaveChanges();
+            _dbContext.Users.Add(newUser);
+            _dbContext.SaveChanges();
+            _logger.LogInformation($"User with ID: {newUser.Id} created");
         }
     }
 }

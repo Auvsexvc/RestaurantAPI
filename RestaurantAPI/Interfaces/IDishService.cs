@@ -13,6 +13,8 @@ namespace RestaurantAPI.Interfaces
 
         void RemoveAll(int restaurantId);
 
+        void Delete(int restaurantId, int dishId);
+
         void Update(int restaurantId, int dishId, UpdateDishDto dto);
     }
 }

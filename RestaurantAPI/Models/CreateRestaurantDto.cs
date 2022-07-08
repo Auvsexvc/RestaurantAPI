@@ -9,11 +9,12 @@ namespace RestaurantAPI.Models
         [Required]
         [MaxLength(50)]
         public string City { get; set; }
-
+        [EmailAddress]
         public string ContactEmail { get; set; }
-
+        [Phone]
         public string ContactNumber { get; set; }
 
+        [MaxLength(500)]
         public string Description { get; set; }
 
         public bool HasDelivery { get; set; }
