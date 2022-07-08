@@ -13,19 +13,6 @@ namespace RestaurantAPI.DataSeeders
             _dbContext = dbContext;
         }
 
-        public void Seed()
-        {
-            if (_dbContext.Database.CanConnect())
-            {
-                if (!_dbContext.Roles.Any())
-                {
-                    var roles = GetRoles();
-                    _dbContext.Roles.AddRange(roles);
-                    _dbContext.SaveChanges();
-                }
-            }
-        }
-
         public IEnumerable<Role> GetRoles()
         {
             var roles = new List<Role>()
@@ -44,6 +31,19 @@ namespace RestaurantAPI.DataSeeders
                 },
             };
             return roles;
+        }
+
+        public void Seed()
+        {
+            if (_dbContext.Database.CanConnect())
+            {
+                if (!_dbContext.Roles.Any())
+                {
+                    var roles = GetRoles();
+                    _dbContext.Roles.AddRange(roles);
+                    _dbContext.SaveChanges();
+                }
+            }
         }
     }
 }

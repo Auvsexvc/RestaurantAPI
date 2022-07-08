@@ -22,7 +22,6 @@ namespace RestaurantAPI.Services
 
         public int Create(int restaurantId, CreateDishDto dto)
         {
-            var restaurant = GetRestaurantById(restaurantId);
             var dishEntity = _mapper.Map<Dish>(dto);
 
             dishEntity.RestaurantId = restaurantId;
@@ -33,26 +32,22 @@ namespace RestaurantAPI.Services
             return dishEntity.Id;
         }
 
-        public DishDto GetById(int restaurantId, int dishId)
+        public List<DishDto> GetAll(int restaurantId)
         {
             var restaurant = GetRestaurantById(restaurantId);
 
+            return _mapper.Map<List<DishDto>>(restaurant.Dishes);
+        }
+
+        public DishDto GetById(int restaurantId, int dishId)
+        {
             var dish = _context.Dishes.FirstOrDefault(d => d.Id == dishId);
             if (dish is null || dish.RestaurantId != restaurantId)
             {
                 throw new NotFoundException("Dish not found");
             }
 
-            var dishDto = _mapper.Map<DishDto>(dish);
-            return dishDto;
-        }
-
-        public List<DishDto> GetAll(int restaurantId)
-        {
-            var restaurant = GetRestaurantById(restaurantId);
-            var dishDtos = _mapper.Map<List<DishDto>>(restaurant.Dishes);
-
-            return dishDtos;
+            return _mapper.Map<DishDto>(dish);
         }
 
         public void RemoveAll(int restaurantId)
@@ -60,6 +55,19 @@ namespace RestaurantAPI.Services
             var restaurant = GetRestaurantById(restaurantId);
 
             _context.RemoveRange(restaurant.Dishes);
+            _context.SaveChanges();
+        }
+
+        public void Update(int restaurantId, int dishId, UpdateDishDto dto)
+        {
+            var dish = _context.Dishes.FirstOrDefault(d => d.Id == dishId);
+
+            if (dish is null || dish.RestaurantId!= restaurantId)
+                throw new NotFoundException("Dish not found");
+
+            dish.Name = dto.Name;
+            dish.Description = dto.Description;
+            dish.Price = dto.Price;
             _context.SaveChanges();
         }
 

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace RestaurantAPI
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
@@ -19,10 +19,7 @@ namespace RestaurantAPI
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                })
-            .UseNLog();
+                .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>())
+                .UseNLog();
     }
 }

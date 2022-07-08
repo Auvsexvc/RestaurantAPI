@@ -244,3 +244,33 @@
 2022-05-26 21:36:47.0407 Info Adding target FileTarget(Name=exceptions)
 2022-05-26 21:36:47.0407 Info Adding target FileTarget(Name=RequestTime)
 2022-05-26 21:36:47.0612 Info Validating config: TargetNames=allfile, exceptions, RequestTime, ConfigItems=64, FilePath=C:\Users\auvsexvc\source\repos\RestaurantAPI\RestaurantAPI\NLog.config
+2022-07-08 16:40:28.2649 Info Message Template Auto Format enabled
+2022-07-08 16:40:28.2775 Info Loading assembly: NLog.Web.AspNetCore
+2022-07-08 16:40:28.3412 Info Adding target FileTarget(Name=allfile)
+2022-07-08 16:40:28.3454 Info Adding target FileTarget(Name=exceptions)
+2022-07-08 16:40:28.3454 Info Adding target FileTarget(Name=RequestTime)
+2022-07-08 16:40:28.3793 Info Validating config: TargetNames=allfile, exceptions, RequestTime, ConfigItems=64, FilePath=C:\Users\auvsexvc\source\repos\RestaurantAPI\RestaurantAPI\NLog.config
+2022-07-08 17:15:08.9994 Info Message Template Auto Format enabled
+2022-07-08 17:15:09.0167 Info Loading assembly: NLog.Web.AspNetCore
+2022-07-08 17:15:09.1045 Info Adding target FileTarget(Name=allfile)
+2022-07-08 17:15:09.1045 Info Adding target FileTarget(Name=exceptions)
+2022-07-08 17:15:09.1045 Info Adding target FileTarget(Name=RequestTime)
+2022-07-08 17:15:09.1426 Info Validating config: TargetNames=allfile, exceptions, RequestTime, ConfigItems=64, FilePath=C:\Users\auvsexvc\source\repos\RestaurantAPI\RestaurantAPI\NLog.config
+2022-07-08 17:15:59.9709 Info Message Template Auto Format enabled
+2022-07-08 17:15:59.9709 Info Loading assembly: NLog.Web.AspNetCore
+2022-07-08 17:16:00.0206 Info Adding target FileTarget(Name=allfile)
+2022-07-08 17:16:00.0206 Info Adding target FileTarget(Name=exceptions)
+2022-07-08 17:16:00.0206 Info Adding target FileTarget(Name=RequestTime)
+2022-07-08 17:16:00.0407 Info Validating config: TargetNames=allfile, exceptions, RequestTime, ConfigItems=64, FilePath=C:\Users\auvsexvc\source\repos\RestaurantAPI\RestaurantAPI\NLog.config
+2022-07-08 17:16:13.1430 Info Message Template Auto Format enabled
+2022-07-08 17:16:13.1578 Info Loading assembly: NLog.Web.AspNetCore
+2022-07-08 17:16:13.2494 Info Adding target FileTarget(Name=allfile)
+2022-07-08 17:16:13.2521 Info Adding target FileTarget(Name=exceptions)
+2022-07-08 17:16:13.2521 Info Adding target FileTarget(Name=RequestTime)
+2022-07-08 17:16:13.2906 Info Validating config: TargetNames=allfile, exceptions, RequestTime, ConfigItems=64, FilePath=C:\Users\auvsexvc\source\repos\RestaurantAPI\RestaurantAPI\NLog.config
+2022-07-08 17:42:23.8798 Info Message Template Auto Format enabled
+2022-07-08 17:42:23.8997 Info Loading assembly: NLog.Web.AspNetCore
+2022-07-08 17:42:23.9494 Info Adding target FileTarget(Name=allfile)
+2022-07-08 17:42:23.9494 Info Adding target FileTarget(Name=exceptions)
+2022-07-08 17:42:23.9494 Info Adding target FileTarget(Name=RequestTime)
+2022-07-08 17:42:23.9758 Info Validating config: TargetNames=allfile, exceptions, RequestTime, ConfigItems=64, FilePath=C:\Users\auvsexvc\source\repos\RestaurantAPI\RestaurantAPI\NLog.config

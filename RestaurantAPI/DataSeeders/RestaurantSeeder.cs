@@ -13,20 +13,6 @@ namespace RestaurantAPI.DataSeeders
             _dbContext = dbContext;
         }
 
-        public void Seed()
-        {
-            
-            if (_dbContext.Database.CanConnect())
-            {
-                if (!_dbContext.Restaurants.Any())
-                {
-                    var restaurants = GetRestaurants();
-                    _dbContext.Restaurants.AddRange(restaurants);
-                    _dbContext.SaveChanges();
-                }
-            }
-        }
-
         public IEnumerable<Restaurant> GetRestaurants()
         {
             var restaurants = new List<Restaurant>()
@@ -87,6 +73,19 @@ namespace RestaurantAPI.DataSeeders
                 }
             };
             return restaurants;
+        }
+
+        public void Seed()
+        {
+            if (_dbContext.Database.CanConnect())
+            {
+                if (!_dbContext.Restaurants.Any())
+                {
+                    var restaurants = GetRestaurants();
+                    _dbContext.Restaurants.AddRange(restaurants);
+                    _dbContext.SaveChanges();
+                }
+            }
         }
     }
 }

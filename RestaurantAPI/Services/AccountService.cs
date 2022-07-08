@@ -10,7 +10,7 @@ namespace RestaurantAPI.Services
         private readonly RestaurantDbContext context;
         private readonly IPasswordHasher<User> passwordHasher;
 
-        public AccountService(RestaurantDbContext context, IPasswordHasher<User> passwordHasher) 
+        public AccountService(RestaurantDbContext context, IPasswordHasher<User> passwordHasher)
         {
             this.context = context;
             this.passwordHasher = passwordHasher;

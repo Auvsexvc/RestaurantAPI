@@ -16,12 +16,18 @@ namespace RestaurantAPI.Controllers
             _dishService = dishService;
         }
 
-        [HttpDelete]
-        public ActionResult Delete([FromRoute] int restaurantId)
+        [HttpGet]
+        public ActionResult<List<DishDto>> Get([FromRoute] int restaurantId)
         {
-            _dishService.RemoveAll(restaurantId);
+            var result = _dishService.GetAll(restaurantId);
+            return Ok(result);
+        }
 
-            return NoContent();
+        [HttpGet("{dishId}")]
+        public ActionResult<DishDto> Get([FromRoute] int restaurantId, [FromRoute] int dishId)
+        {
+            DishDto dish = _dishService.GetById(restaurantId, dishId);
+            return Ok(dish);
         }
 
         [HttpPost]
@@ -32,19 +38,20 @@ namespace RestaurantAPI.Controllers
             return Created($"api/restaurant/{restaurantId}/dish/{newDishId}", null);
         }
 
-        [HttpGet("{dishId}")]
-        public ActionResult<DishDto> Get([FromRoute] int restaurantId, [FromRoute] int dishId)
+        [HttpPut("{id}")]
+        public ActionResult Update([FromRoute] int restaurantId, [FromRoute] int id, [FromBody] UpdateDishDto dto)
         {
-            DishDto dish = _dishService.GetById(restaurantId, dishId);
-            return Ok(dish);
+            _dishService.Update(restaurantId, id, dto);
+
+            return Ok();
         }
 
-        [HttpGet]
-        public ActionResult<List<DishDto>> Get([FromRoute] int restaurantId)
+        [HttpDelete]
+        public ActionResult Delete([FromRoute] int restaurantId)
         {
-            var result = _dishService.GetAll(restaurantId);
-            return Ok(result);
-        }
+            _dishService.RemoveAll(restaurantId);
 
+            return NoContent();
+        }
     }
 }

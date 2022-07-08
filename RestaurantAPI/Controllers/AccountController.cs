@@ -6,19 +6,19 @@ namespace RestaurantAPI.Controllers
 {
     [Route("api/account")]
     [ApiController]
-    
     public class AccountController : ControllerBase
     {
-        private readonly IAccountService accountService;
+        private readonly IAccountService _accountService;
 
         public AccountController(IAccountService accountService)
         {
-            this.accountService = accountService;
+            _accountService = accountService;
         }
+
         [HttpPost("register")]
-        public ActionResult RegisterUser([FromBody]RegisterUserDto dto)
+        public ActionResult RegisterUser([FromBody] RegisterUserDto dto)
         {
-            accountService.RegisterUser(dto);
+            _accountService.RegisterUser(dto);
             return Ok();
         }
     }
