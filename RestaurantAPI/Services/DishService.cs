@@ -62,7 +62,7 @@ namespace RestaurantAPI.Services
         {
             var dish = _context.Dishes.FirstOrDefault(d => d.Id == dishId);
 
-            if (dish is null || dish.RestaurantId!= restaurantId)
+            if (dish is null || dish.RestaurantId != restaurantId)
                 throw new NotFoundException("Dish not found");
 
             dish.Name = dto.Name;

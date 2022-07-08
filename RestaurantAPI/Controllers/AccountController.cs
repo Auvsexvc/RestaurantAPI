@@ -15,6 +15,13 @@ namespace RestaurantAPI.Controllers
             _accountService = accountService;
         }
 
+        [HttpGet]
+        public ActionResult GetAll()
+        {
+            var userDtos = _accountService.GetAll();
+            return Ok(userDtos);
+        }
+
         [HttpPost("register")]
         public ActionResult RegisterUser([FromBody] RegisterUserDto dto)
         {

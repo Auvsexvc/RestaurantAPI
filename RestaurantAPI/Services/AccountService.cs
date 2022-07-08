@@ -1,19 +1,35 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using RestaurantAPI.Entities;
 using RestaurantAPI.Interfaces;
 using RestaurantAPI.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RestaurantAPI.Services
 {
     public class AccountService : IAccountService
     {
-        private readonly RestaurantDbContext context;
-        private readonly IPasswordHasher<User> passwordHasher;
+        private readonly RestaurantDbContext _context;
+        private readonly IPasswordHasher<User> _passwordHasher;
+        private readonly IMapper _mapper;
 
-        public AccountService(RestaurantDbContext context, IPasswordHasher<User> passwordHasher)
+        public AccountService(RestaurantDbContext context, IPasswordHasher<User> passwordHasher, IMapper mapper)
         {
-            this.context = context;
-            this.passwordHasher = passwordHasher;
+            _context = context;
+            _passwordHasher = passwordHasher;
+            _mapper = mapper;
+        }
+
+        public IEnumerable<UserDto> GetAll()
+        {
+            var users = _context
+                .Users
+                .Include(r => r.Role)
+                .ToList();
+
+            return _mapper.Map<List<UserDto>>(users);
         }
 
         public void RegisterUser(RegisterUserDto dto)
@@ -26,10 +42,10 @@ namespace RestaurantAPI.Services
                 RoleId = dto.RoleId,
             };
 
-            var hashedPassword = passwordHasher.HashPassword(newUser, dto.Password);
+            var hashedPassword = _passwordHasher.HashPassword(newUser, dto.Password);
             newUser.PasswordHash = hashedPassword;
-            context.Users.Add(newUser);
-            context.SaveChanges();
+            _context.Users.Add(newUser);
+            _context.SaveChanges();
         }
     }
 }
