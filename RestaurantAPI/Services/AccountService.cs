@@ -27,7 +27,7 @@ namespace RestaurantAPI.Services
 
         public IEnumerable<UserDto> GetAll()
         {
-            var users = _dbContext
+            List<User> users = _dbContext
                 .Users
                 .Include(r => r.Role)
                 .ToList();
@@ -37,7 +37,7 @@ namespace RestaurantAPI.Services
 
         public void RegisterUser(RegisterUserDto dto)
         {
-            var newUser = new User()
+            User newUser = new()
             {
                 Email = dto.Email,
                 DateOfBirth = dto.DateOfBirth,
@@ -45,10 +45,10 @@ namespace RestaurantAPI.Services
                 RoleId = dto.RoleId,
             };
 
-            var hashedPassword = _passwordHasher.HashPassword(newUser, dto.Password);
-            newUser.PasswordHash = hashedPassword;
+            newUser.PasswordHash = _passwordHasher.HashPassword(newUser, dto.Password);
             _dbContext.Users.Add(newUser);
             _dbContext.SaveChanges();
+
             _logger.LogInformation($"User with ID: {newUser.Id} created");
         }
     }
