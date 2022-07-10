@@ -16,10 +16,7 @@ namespace RestaurantAPI.Migrations
                     Street = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Addresses", x => x.Id);
-                });
+                constraints: table => table.PrimaryKey("PK_Addresses", x => x.Id));
 
             migrationBuilder.CreateTable(
                 name: "Restaurants",

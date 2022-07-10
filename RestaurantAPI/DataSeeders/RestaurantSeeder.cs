@@ -15,7 +15,7 @@ namespace RestaurantAPI.DataSeeders
 
         public IEnumerable<Restaurant> GetRestaurants()
         {
-            var restaurants = new List<Restaurant>()
+            List<Restaurant> restaurants = new()
             {
                 new Restaurant()
                 {
@@ -77,14 +77,11 @@ namespace RestaurantAPI.DataSeeders
 
         public void Seed()
         {
-            if (_dbContext.Database.CanConnect())
+            if (_dbContext.Database.CanConnect() && !_dbContext.Restaurants.Any())
             {
-                if (!_dbContext.Restaurants.Any())
-                {
-                    var restaurants = GetRestaurants();
-                    _dbContext.Restaurants.AddRange(restaurants);
-                    _dbContext.SaveChanges();
-                }
+                var restaurants = GetRestaurants();
+                _dbContext.Restaurants.AddRange(restaurants);
+                _dbContext.SaveChanges();
             }
         }
     }

@@ -35,14 +35,11 @@ namespace RestaurantAPI.DataSeeders
 
         public void Seed()
         {
-            if (_dbContext.Database.CanConnect())
+            if (_dbContext.Database.CanConnect() && !_dbContext.Roles.Any())
             {
-                if (!_dbContext.Roles.Any())
-                {
-                    var roles = GetRoles();
-                    _dbContext.Roles.AddRange(roles);
-                    _dbContext.SaveChanges();
-                }
+                var roles = GetRoles();
+                _dbContext.Roles.AddRange(roles);
+                _dbContext.SaveChanges();
             }
         }
     }
