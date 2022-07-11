@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RestaurantAPI.Interfaces;
 using RestaurantAPI.Models;
 
 namespace RestaurantAPI.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/account")]
     [ApiController]
     public class AccountController : ControllerBase
@@ -19,6 +21,7 @@ namespace RestaurantAPI.Controllers
         public ActionResult GetAll()
         {
             var userDtos = _accountService.GetAll();
+
             return Ok(userDtos);
         }
 
@@ -26,7 +29,17 @@ namespace RestaurantAPI.Controllers
         public ActionResult RegisterUser([FromBody] RegisterUserDto dto)
         {
             _accountService.RegisterUser(dto);
+
             return Ok();
+        }
+
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public ActionResult Login([FromBody] LoginDto dto)
+        {
+            string token = _accountService.GenereateJWT(dto);
+
+            return Ok(token);
         }
     }
 }

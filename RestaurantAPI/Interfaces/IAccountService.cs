@@ -8,5 +8,7 @@ namespace RestaurantAPI.Interfaces
     {
         void RegisterUser(RegisterUserDto dto);
         IEnumerable<UserDto> GetAll();
+
+        string GenereateJWT(LoginDto dto);
     }
 }

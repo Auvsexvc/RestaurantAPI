@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RestaurantAPI.Interfaces;
 using RestaurantAPI.Models;
 using System.Collections.Generic;
 
 namespace RestaurantAPI.Controllers
 {
+    [Authorize(Roles = "Admin, Manager")]
     [Route("api/restaurant/{restaurantId}/dish")]
     [ApiController]
     public class DishController : ControllerBase
@@ -15,14 +17,14 @@ namespace RestaurantAPI.Controllers
         {
             _dishService = dishService;
         }
-
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult<List<DishDto>> Get([FromRoute] int restaurantId)
         {
             var result = _dishService.GetAll(restaurantId);
             return Ok(result);
         }
-
+        [AllowAnonymous]
         [HttpGet("{dishId}")]
         public ActionResult<DishDto> Get([FromRoute] int restaurantId, [FromRoute] int dishId)
         {
